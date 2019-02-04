@@ -1,0 +1,75 @@
+﻿@model NetFlox.DAL.Film
+
+@{
+    ViewData["Title"] = Model.Titre;
+}
+
+<h2>@Model.Titre</h2>
+
+<div style="display: flex; flex-direction: row;">
+    <div>
+        <img src="@Model.UrlAffiche" style="max-width: 300px;" />
+    </div>
+    <div>
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Titre)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Titre)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Description)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Description)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Annee)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Annee)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Pays)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Pays)
+            </dd>
+        </dl>
+    </div>
+</div>
+<div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Nom</th>
+                <th>Rôle</th>
+                <th>Personnage</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.RoleCelebriteFilms.OrderByDescending(rcf => rcf.RoleId).ThenBy(rcf => rcf.Celebrite.Nom))
+            {
+                <tr>
+                    <td>
+                        <img src="@item.Celebrite.UrlPhoto" height="50" />
+                    </td>
+                    <td>
+                        <a asp-controller="Celebrites" asp-action="Details" asp-route-id="@item.CelebriteId">@Html.DisplayFor(modelItem => item.Celebrite.Nom)</a>
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Role.Libelle)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NomPersonnage)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>

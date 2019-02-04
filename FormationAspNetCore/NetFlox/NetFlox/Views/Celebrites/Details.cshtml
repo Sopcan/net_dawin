@@ -1,0 +1,68 @@
+﻿@model NetFlox.DAL.Celebrite
+
+@{
+    ViewData["Title"] = Model.Nom;
+}
+
+<h2>@Model.Nom</h2>
+<div style="display: flex; flex-direction: row;">
+    <div>
+        <img src="@Model.UrlPhoto" style="max-width: 300px;" />
+    </div>
+    <div>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Nom)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Nom)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.DateNaissance)
+            </dt>
+            <dd>
+                @Model.DateNaissance?.ToString("dd/MM/yyyy")
+            </dd>
+        </dl>
+    </div>
+</div>
+<div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Titre</th>
+                <th>Année</th>
+                <th>Rôle</th>
+                <th>Personnage</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.RoleCelebriteFilms.OrderByDescending(rcf => rcf.Film.Annee))
+            {
+            <tr>
+                <td>
+                    <img src="@item.Film.UrlAffiche" height="50" />
+                </td>
+                <td>
+                    <a asp-controller="Films" asp-action="Details" asp-route-id="@item.FilmId">@Html.DisplayFor(modelItem => item.Film.Titre)</a>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Film.Annee)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Role.Libelle)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NomPersonnage)
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
